@@ -31,3 +31,12 @@ jobs:
       with:
         args: check
 ```
+
+_to use a specific php version:_
+```diff
+      uses: docker://phparkitect/phparkitect
++     env:
++       PHP_VERSION: 8.0
+      with:
+        args: check
+```
