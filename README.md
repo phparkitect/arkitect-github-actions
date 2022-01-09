@@ -27,14 +27,14 @@ jobs:
       uses: actions/checkout@v2
 
     - name: PHPArkitect
-      uses: docker://phparkitect/phparkitect
+      uses: docker://phparkitect/arkitect-github-actions
       with:
         args: check
 ```
 
 _to use a specific php version:_
 ```diff
-      uses: docker://phparkitect/phparkitect
+      uses: docker://phparkitect/arkitect-github-actions
 +     env:
 +       PHP_VERSION: 8.0
       with:
