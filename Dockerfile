@@ -19,7 +19,9 @@ RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
 ENV VERSION=0.2.10
 
 RUN composer global require phparkitect/phparkitect $VERSION \
-    && composer global show "*phparkitect*"
+    && composer global require phpunit/phpunit \
+    && composer global show "*phparkitect*" \
+
 
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
