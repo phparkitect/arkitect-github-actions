@@ -1,13 +1,9 @@
 name: Update version
 
 on:
-  push:
-    branches: [ main ]
-    pull_request:
-      branches: [ main ]
-  #workflow_dispatch:
-  #schedule:
-  #  - cron: '30 */4 * * *'
+  workflow_dispatch:
+  schedule:
+    - cron: '30 */4 * * *'
 
 jobs:
   update-version:
