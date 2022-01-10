@@ -20,8 +20,7 @@ ENV VERSION=0.2.10
 
 RUN composer global require phparkitect/phparkitect $VERSION \
     && composer global require phpunit/phpunit \
-    && composer global show "*phparkitect*" \
-
+    && composer global show "*phparkitect*"
 
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
