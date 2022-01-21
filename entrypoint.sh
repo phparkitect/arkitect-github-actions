@@ -1,5 +1,7 @@
 #!/bin/sh -l
 
+set -e
+
 /composer/vendor/bin/phparkitect --version
 
 IGNORE_PLATFORM_REQS=""

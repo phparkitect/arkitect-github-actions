@@ -9,7 +9,7 @@ LABEL "repository"="http://github.com/phparkitect/arkitect-github-actions"
 LABEL "homepage"="http://github.com/actions"
 LABEL "maintainer"="Alessandro Minoccheri <alessandro.minoccheri@gmail.com>"
 
-COPY --from=composer:2.0.8 /usr/bin/composer /usr/local/bin/composer
+COPY --from=composer:2.2.4 /usr/bin/composer /usr/local/bin/composer
 
 RUN mkdir /composer
 ENV COMPOSER_HOME=/composer
