@@ -1,6 +1,6 @@
 # GithubAction for Arkitect
 
-This repository is created for run PHPArkitect into Github Action
+This repository is created for run PHPArkitect into Github Actions
 
 ## Usage
 You can use it as a Github Action like this:
