@@ -40,3 +40,11 @@ _to use a specific php version:_
       with:
         args: check
 ```
+
+## Building and pushing the docker image
+
+```
+docker login
+docker build -t phparkitect/arkitect-github-actions:latest .
+docker push phparkitect/arkitect-github-actions:latest
+```
