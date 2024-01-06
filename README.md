@@ -17,7 +17,7 @@ on:
 name: Test
 
 jobs:
-  phpstan:
+  phparkitect:
     name: PHPArkitect
 
     runs-on: ubuntu-latest
