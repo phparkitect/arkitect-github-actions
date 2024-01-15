@@ -1,15 +1,15 @@
 # https://help.github.com/en/articles/metadata-syntax-for-github-actions
 
-author: 'AlessandroMinoccheri'
+author: "AlessandroMinoccheri"
 
 branding:
-    icon: 'check'
-    color: 'blue'
+  icon: "check"
+  color: "blue"
 
-description: 'Use Arkitect via GithubAction.'
+description: "Use Arkitect via GithubAction."
 
-name: 'phparkitect-arkitect'
+name: "phparkitect-arkitect"
 
 runs:
-    using: 'docker'
-    image: 'docker://phparkitect/arkitect-github-actions:0.3.26'
+  using: "docker"
+  image: "docker://phparkitect/arkitect-github-actions:0.3.27"
