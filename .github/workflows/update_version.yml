@@ -21,12 +21,14 @@ jobs:
       - name: "Update Dockerfile and action.yml"
         id: fetch_version
         run: |
-          latest=$(curl -s https://packagist.org/packages/phparkitect/phparkitect.json|jq '[.package.versions[]|select(.version|test("^\\d+\\.\\d+\\.\\d+$"))|.version]|max_by(.|[splits("[.]")]|map(tonumber))')
-          latest=$(echo $latest | tr -d '"')
+          latest=$(curl -s https://repo.packagist.org/p2/phparkitect/phparkitect.json | jq -r '.packages[][0] | .version')
+          
           echo "Latest PHPArkitect version is $latest"
-          echo ::set-output name=latest::$latest
+          echo "latest=$latest" >> "$GITHUB_OUTPUT"
+
           sed -i -re "s/ENV VERSION=.*/ENV VERSION=$latest/" Dockerfile
           cat Dockerfile
+          
           sed -i -re "s/arkitect-github-actions:[0-9.]+/arkitect-github-actions:$latest/" action.yml
           cat action.yml
 
