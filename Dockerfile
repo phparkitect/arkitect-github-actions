@@ -16,7 +16,7 @@ ENV COMPOSER_HOME=/composer
 
 RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
 
-ENV VERSION=0.5.5
+ENV VERSION=0.6.0
 
 RUN composer global require phparkitect/phparkitect $VERSION \
     && composer global require phpunit/phpunit \
