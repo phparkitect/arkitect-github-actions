@@ -10,6 +10,12 @@ description: "Use Arkitect via GithubAction."
 
 name: "phparkitect-arkitect"
 
+inputs:
+  phparkitect-version:
+    description: "PHPArkitect version to use (e.g., 0.7.0, ^0.7, *). Defaults to latest stable version."
+    required: false
+    default: "*"
+
 runs:
   using: "docker"
-  image: "docker://phparkitect/arkitect-github-actions:0.7.0"
+  image: "Dockerfile"

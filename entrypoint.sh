@@ -2,6 +2,13 @@
 
 set -e
 
+# Handle custom PHPArkitect version if specified
+if [ -n "$INPUT_PHPARKITECT_VERSION" ]; then
+    echo "::group::Installing PHPArkitect version $INPUT_PHPARKITECT_VERSION"
+    composer global require phparkitect/phparkitect "$INPUT_PHPARKITECT_VERSION"
+    echo "::endgroup::"
+fi
+
 /composer/vendor/bin/phparkitect --version
 
 IGNORE_PLATFORM_REQS=""
