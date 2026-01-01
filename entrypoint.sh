@@ -3,7 +3,7 @@
 set -e
 
 echo "::group::PHPArkitect Version"
-phparkitect --version
+/composer/vendor/bin/phparkitect --version
 echo "::endgroup::"
 
 # Build composer install flags
@@ -33,5 +33,5 @@ fi
 # Execute PHPArkitect with all arguments
 echo "::group::Running PHPArkitect"
 # shellcheck disable=SC2086
-phparkitect "$@" ${PHPARKITECT_FLAGS}
+/composer/vendor/bin/phparkitect "$@" ${PHPARKITECT_FLAGS}
 echo "::endgroup::"

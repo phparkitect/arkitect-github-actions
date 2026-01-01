@@ -18,7 +18,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 RUN mkdir /composer
 ENV COMPOSER_HOME=/composer
-ENV PATH="/composer/vendor/bin:${PATH}"
 
 # Configure PHP
 RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
