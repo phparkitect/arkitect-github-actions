@@ -6,10 +6,18 @@ branding:
   icon: "check"
   color: "blue"
 
-description: "Use Arkitect via GithubAction."
+description: "Use PHPArkitect via GitHub Actions to enforce architectural rules in your PHP projects."
 
 name: "phparkitect-arkitect"
 
+inputs:
+  args:
+    description: 'Arguments to pass to PHPArkitect (e.g., check, list)'
+    required: false
+    default: 'check'
+
 runs:
   using: "docker"
-  image: "docker://phparkitect/arkitect-github-actions:0.7.0"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.args }}

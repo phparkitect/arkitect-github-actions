@@ -1,0 +1,13 @@
+{
+    "name": "phparkitect/test-project",
+    "description": "Test project for PHPArkitect GitHub Action",
+    "type": "project",
+    "require": {
+        "php": ">=7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

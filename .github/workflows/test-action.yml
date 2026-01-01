@@ -1,0 +1,74 @@
+name: Test Action
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'claude/**'
+
+jobs:
+  test-local-action:
+    name: Test PHPArkitect Action
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        test_case:
+          - name: "Basic check"
+            args: "check"
+            require_dev: "false"
+          - name: "Check with dev dependencies"
+            args: "check"
+            require_dev: "true"
+          - name: "Check with PHP 8.0"
+            args: "check"
+            require_dev: "false"
+            php_version: "8.0"
+          - name: "Check with PHP 8.2"
+            args: "check"
+            require_dev: "false"
+            php_version: "8.2"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Copy test project files to root
+        run: |
+          cp test-project/composer.json .
+          cp test-project/phparkitect.php .
+          cp -r test-project/src .
+
+      - name: Test PHPArkitect Action - ${{ matrix.test_case.name }}
+        uses: ./
+        env:
+          REQUIRE_DEV: ${{ matrix.test_case.require_dev }}
+          PHP_VERSION: ${{ matrix.test_case.php_version }}
+        with:
+          args: ${{ matrix.test_case.args }}
+
+  test-docker-build:
+    name: Test Docker Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: false
+          tags: phparkitect/arkitect-github-actions:test
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Test Docker image
+        run: |
+          docker run --rm phparkitect/arkitect-github-actions:test --version
