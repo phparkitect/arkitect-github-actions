@@ -17,15 +17,11 @@ if [ "${REQUIRE_DEV}" != "true" ]; then
     COMPOSER_FLAGS="${COMPOSER_FLAGS} --no-dev"
 fi
 
-# Install project dependencies if composer.json exists
-if [ -f "composer.json" ]; then
-    echo "::group::Installing project dependencies"
-    # shellcheck disable=SC2086
-    composer install ${COMPOSER_FLAGS}
-    echo "::endgroup::"
-else
-    echo "::notice::No composer.json found, skipping dependency installation"
-fi
+# Install project dependencies
+echo "::group::Installing project dependencies"
+# shellcheck disable=SC2086
+composer install ${COMPOSER_FLAGS}
+echo "::endgroup::"
 
 # Build PHPArkitect flags
 PHPARKITECT_FLAGS=""
