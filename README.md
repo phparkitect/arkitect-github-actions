@@ -2,6 +2,25 @@
 
 This repository is created for run PHPArkitect into Github Actions
 
+## ⚠️ Migration from v0.x
+
+If you're currently using the old Docker image format:
+```yaml
+uses: docker://phparkitect/arkitect-github-actions:0.7.0
+```
+
+Please update to the new format for better flexibility and automatic updates:
+```yaml
+uses: phparkitect/arkitect-github-actions@main
+with:
+  phparkitect-version: '0.7.0'  # optional, defaults to latest
+```
+
+**Benefits of migrating:**
+- Choose any PHPArkitect version without waiting for action releases
+- Get automatic updates when using default version
+- Support for version constraints (e.g., `^0.7`, `*`)
+
 ## Usage
 You can use it as a Github Action like this:
 
