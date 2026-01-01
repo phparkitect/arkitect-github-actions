@@ -1,26 +1,37 @@
 FROM php:8.2-alpine
 
-LABEL "com.github.actions.name"="PHPArkitect-arkitect"
-LABEL "com.github.actions.description"="arkitect"
-LABEL "com.github.actions.icon"="check"
-LABEL "com.github.actions.color"="blue"
+# Modern OCI labels
+LABEL org.opencontainers.image.title="PHPArkitect GitHub Action"
+LABEL org.opencontainers.image.description="Enforce architectural rules in PHP projects using PHPArkitect"
+LABEL org.opencontainers.image.source="https://github.com/phparkitect/arkitect-github-actions"
+LABEL org.opencontainers.image.url="https://github.com/phparkitect/arkitect-github-actions"
+LABEL org.opencontainers.image.documentation="https://github.com/phparkitect/arkitect-github-actions/blob/main/README.md"
+LABEL org.opencontainers.image.vendor="PHPArkitect"
+LABEL org.opencontainers.image.licenses="MIT"
+LABEL maintainer="Alessandro Minoccheri <alessandro.minoccheri@gmail.com>"
 
-LABEL "repository"="http://github.com/phparkitect/arkitect-github-actions"
-LABEL "homepage"="http://github.com/actions"
-LABEL "maintainer"="Alessandro Minoccheri <alessandro.minoccheri@gmail.com>"
+# Install git (required for Composer) and other dependencies
+RUN apk add --no-cache git unzip
 
-COPY --from=composer:2.5.5 /usr/bin/composer /usr/local/bin/composer
+# Use latest Composer version
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 RUN mkdir /composer
 ENV COMPOSER_HOME=/composer
+ENV PATH="/composer/vendor/bin:${PATH}"
 
+# Configure PHP
 RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
 
-ENV VERSION=0.7.0
+# PHPArkitect version
+ARG VERSION=0.7.0
+ENV VERSION=${VERSION}
 
-RUN composer global require phparkitect/phparkitect $VERSION \
-    && composer global require phpunit/phpunit \
-    && composer global show "*phparkitect*"
+# Install PHPArkitect globally
+RUN composer global require phparkitect/phparkitect:${VERSION} --no-interaction --prefer-dist \
+    && composer global show phparkitect/phparkitect
 
-ADD entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 ENTRYPOINT ["/entrypoint.sh"]

@@ -51,27 +51,30 @@ jobs:
           RELEASE_BRANCHES: main
 
       - name: "Create release ${{ steps.fetch_version.outputs.latest }}"
-        uses: actions/create-release@v1
         if: steps.commit.outputs.changes_detected == 'true'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ steps.tag.outputs.new_tag }}
-          release_name: ${{ steps.tag.outputs.new_tag }}
-          commitish: main
-          body: "Upgrade PHPArkitect to ${{ steps.tag.outputs.new_tag }}"
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.tag.outputs.new_tag }}" \
+            --title "${{ steps.tag.outputs.new_tag }}" \
+            --notes "Upgrade PHPArkitect to ${{ steps.tag.outputs.new_tag }}" \
+            --target main
 
   publish_docker_images:
     needs: [update-version]
     runs-on: ubuntu-22.04
-       
+
     if: github.ref == 'refs/heads/main' || github.event_name == 'release'
     steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
     - name: Docker meta
       id: meta
-      uses: crazy-max/ghaction-docker-meta@v2
+      uses: docker/metadata-action@v5
       with:
         images: phparkitect/arkitect-github-actions
         tags: |
@@ -79,17 +82,21 @@ jobs:
           type=ref,event=tag
         flavor: |
           latest=false
+
     - name: Login to DockerHub
       if: github.event_name != 'pull_request'
-      uses: docker/login-action@v1
+      uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+
     - name: Build and push
-      uses: docker/build-push-action@v2
+      uses: docker/build-push-action@v5
       with:
         context: .
         push: ${{ github.event_name != 'pull_request' }}
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
 
