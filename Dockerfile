@@ -16,9 +16,10 @@ ENV COMPOSER_HOME=/composer
 
 RUN echo "memory_limit=-1" > $PHP_INI_DIR/conf.d/memory-limit.ini
 
-ENV VERSION=0.7.0
+# Default version - can be overridden via action input
+ENV DEFAULT_VERSION=*
 
-RUN composer global require phparkitect/phparkitect $VERSION \
+RUN composer global require phparkitect/phparkitect ${DEFAULT_VERSION} \
     && composer global require phpunit/phpunit \
     && composer global show "*phparkitect*"
 
